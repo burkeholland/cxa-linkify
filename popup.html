@@ -1,84 +1,100 @@
 <!DOCTYPE html>
-<html lang="en" data-ng-app="CxALinkerApp">
-  <head>
-    <meta charset="UTF-8" />
-    <title></title>
-    <script src="js/angular.min.js"></script>
-    <script src="js/app.js"></script>
-    <link rel="stylesheet" href="bulma.min.css" />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body data-ng-controller="PopupController">
-    <div class="card-content">
-      <div>
-        <div class="field">
-          <div class="control">
-            <label for="url-to-shorten" class="label">Enter URL</label>
-          </div>
-        </div>
-        <div class="field">
-          <div class="control is-expanded">
-            <input
-              id="originalUrl"
-              class="input"
-              type="text"
-              ng-model="originalUrl"
-            />
-          </div>
-        </div>
-        <div class="field is-grouped is-grouped-right">
-          <h2 class="control status has-text-info">
-            {{ status }}
-          </h2>
-          <p class="control">
-            <button class="button is-info" ng-click="trackUrl()">
-              Track
-            </button>
-          </p>
-          <p class="control">
-            <button class="button is-info" ng-click="shortenUrl()">
-              Shorten
-            </button>
-          </p>
-        </div>
-      </div>
-      <hr />
-      <div>
-        <label for="" class="label">URL Configuration</label>
-        <div class="field">
-          <div class="control">
-            <label class="label">Event</label>
-            <input
-              ng-model="config.values.event"
-              class="input card-footer-item"
-              type="text"
-              ng-blur="saveConfiguration()"
-            />
-          </div>
-        </div>
-        <div class="field">
-          <div class="control">
-            <label class="label">Channel</label>
-            <input
-              ng-model="config.values.channel"
-              class="input card-footer-item"
-              type="text"
-              ng-blur="saveConfiguration()"
-            />
-          </div>
-        </div>
-        <div class="field">
-          <div class="control">
-            <label class="label">Alias</label>
-            <input
-              ng-model="config.values.alias"
-              class="input card-footer-item"
-              type="text"
-              ng-blur="saveConfiguration()"
-            />
-          </div>
-        </div>
+<html lang="en" data-ng-app="WTify">
+<head>
+  <meta charset="UTF-8" />
+  <title></title>
+  <script src="angular.min.js"></script>
+  <script src="app.js"></script>
+  <link rel="stylesheet" href="bulma.min.css" />
+  <link rel="stylesheet" href="fontawesome/css/fontawesome.css">
+  <link rel="stylesheet" href="fontawesome/css/brands.css">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-ng-controller="PopupController">
+  <div class="card-content">
+    <div class="field">
+      <div class="control">
+        <label for="url-to-shorten" class="label">Enter URL</label>
       </div>
     </div>
-  </body>
+    <div class="field">
+      <div class="control is-expanded">
+        <input id="originalUrl" class="input" type="text" ng-model="originalUrl" />
+      </div>
+    </div>
+    <div class="field is-grouped is-grouped-right">
+      <h2 class="control status has-text-info">
+        {{ status }}
+      </h2>
+      <p class="control">
+        <button class="button is-info" ng-click="trackUrl()">
+          Track
+        </button>
+      </p>
+      <p class="control">
+        <button class="button is-info" ng-click="shortenUrl()">
+          Shorten
+        </button>
+      </p>
+    </div>
+  </div>
+  <div id="tabs-with-content">
+    <div class="tabs">
+      <ul>
+        <li ng-class="{ 'is-active': isActiveTab(0) }"><a ng-click="setActiveTab(0)">Custom</a></li>
+        <li ng-class="{ 'is-active': isActiveTab(1) }"><a ng-click="setActiveTab(1)">Presets</a></li>
+      </ul>
+    </div>
+    <div>
+      <section class="tab-content" ng-class="{ 'is-active': isActiveTab(0) }">
+
+        <div>
+          <label for="" class="label">URL Configuration</label>
+          <div class="field">
+            <div class="control">
+              <label class="label">Event</label>
+              <input ng-model="config.values.event" class="input card-footer-item" type="text"
+                ng-blur="saveConfiguration()" />
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <label class="label">Channel</label>
+              <input ng-model="config.values.channel" class="input card-footer-item" type="text"
+                ng-blur="saveConfiguration()" />
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <label class="label">Alias</label>
+              <input ng-model="config.values.alias" class="input card-footer-item" type="text"
+                ng-blur="saveConfiguration()" />
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="tab-content" ng-class="{ 'is-active': isActiveTab(1) }">
+        <div ng-repeat="section in presets">
+          <div>
+            <span class="has-text-weight-bold">{{ section.name }}:</span>
+            <span>{{ section.description }}</span>
+          </div>
+          <br>
+          <div class="columns is-multiline is-mobile">
+            <div class="column is-narrow" ng-repeat="preset in section.presets">
+              <button class="button is-large" title="{{ preset.name }}"
+                ng-click="setPreset(section.channel, preset.event)">
+                <span class="icon is-large" style="{{ preset.style }}">
+                  <i class="fab {{ preset.icon }}"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+          <br>
+        </div>
+    </div>
+    </section>
+
+  </div>
+</body>
 </html>
